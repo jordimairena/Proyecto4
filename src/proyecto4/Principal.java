@@ -1417,25 +1417,25 @@ public class Principal extends javax.swing.JFrame {
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         // TODO add your handling code here:
         for (int i = 0; i < lista_lugares.size(); i++) {
-            graph.addVertex(lista_lugares.get(i));
+            grafo.addVertex(lista_lugares.get(i));
         }
         for (int i = 0; i < lista_lugares.size(); i++) {
             for (int j = 0; j < lista_lugares.get(i).vecinos.size(); j++) {
-                graph.addEdge(lista_lugares.get(i).vecinos.get(j).getWeight(), lista_lugares.get(i), lista_lugares.get(i).vecinos.get(j).getLugar(), EdgeType.DIRECTED);
+                grafo.addEdge(lista_lugares.get(i).vecinos.get(j).getWeight(), lista_lugares.get(i), lista_lugares.get(i).vecinos.get(j).getLugar(), EdgeType.DIRECTED);
             }
         }
         for (int i = 0; i < lista_lugares.size(); i++) {
-            grapho.addVertex(lista_lugares.get(i));
+            grafo1.addVertex(lista_lugares.get(i));
         }
         for (int i = 0; i < lista_lugares.size(); i++) {
             for (int j = 0; j < lista_lugares.get(i).vecinos.size(); j++) {
-                grapho.addEdge(lista_lugares.get(i).vecinos.get(j).getPeso(), lista_lugares.get(i), lista_lugares.get(i).vecinos.get(j).getLugar(), EdgeType.DIRECTED);
+                grafo1.addEdge(lista_lugares.get(i).vecinos.get(j).getPeso(), lista_lugares.get(i), lista_lugares.get(i).vecinos.get(j).getLugar(), EdgeType.DIRECTED);
             }
         }
         this.rootPane = null;
         this.setLocationRelativeTo(this.rootPane);
         setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
-        Layout<String, String> layout = new FRLayout(graph);
+        Layout<String, String> layout = new FRLayout(grafo);
         layout.setSize(new Dimension(this.getWidth(), this.getHeight()));
         BasicVisualizationServer<String, String> visualization = new BasicVisualizationServer<>(layout);
         visualization.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()));
@@ -1620,11 +1620,11 @@ public class Principal extends javax.swing.JFrame {
         txt_recorrido_a.setText("");
         ta_pizarra.setText("");
         Transformer<Relacion, Integer> wtTransformer = new Transformer<Relacion, Integer>() {
-            public Integer transform(Relacion link) {
-                return link.getLevel();
+            public Integer transform(Relacion union) {
+                return union.getLevel();
             }
         };
-        DijkstraShortestPath<Lugar, Relacion> alg = new DijkstraShortestPath(grapho, wtTransformer);
+        DijkstraShortestPath<Lugar, Relacion> alg = new DijkstraShortestPath(grafo1, wtTransformer);
         Lugar to = new Lugar();
         for (int i = 0; i < lista_lugares.size(); i++) {
             if (cb_a.getSelectedItem().toString().equals(lista_lugares.get(i).nombre)) {
@@ -1640,25 +1640,25 @@ public class Principal extends javax.swing.JFrame {
         jd_dijsktra.pack();
         jd_dijsktra.setVisible(true);
         for (int i = 0; i < lista_lugares.size(); i++) {
-            graph.addVertex(lista_lugares.get(i));
+            grafo.addVertex(lista_lugares.get(i));
         }
         for (int i = 0; i < lista_lugares.size(); i++) {
             for (int j = 0; j < lista_lugares.get(i).vecinos.size(); j++) {
-                graph.addEdge(lista_lugares.get(i).vecinos.get(j).getWeight(), lista_lugares.get(i), lista_lugares.get(i).vecinos.get(j).getLugar(), EdgeType.DIRECTED);
+                grafo.addEdge(lista_lugares.get(i).vecinos.get(j).getWeight(), lista_lugares.get(i), lista_lugares.get(i).vecinos.get(j).getLugar(), EdgeType.DIRECTED);
             }
         }
         for (int i = 0; i < lista_lugares.size(); i++) {
-            grapho.addVertex(lista_lugares.get(i));
+            grafo1.addVertex(lista_lugares.get(i));
         }
         for (int i = 0; i < lista_lugares.size(); i++) {
             for (int j = 0; j < lista_lugares.get(i).vecinos.size(); j++) {
-                grapho.addEdge(lista_lugares.get(i).vecinos.get(j).getPeso(), lista_lugares.get(i), lista_lugares.get(i).vecinos.get(j).getLugar(), EdgeType.DIRECTED);
+                grafo1.addEdge(lista_lugares.get(i).vecinos.get(j).getPeso(), lista_lugares.get(i), lista_lugares.get(i).vecinos.get(j).getLugar(), EdgeType.DIRECTED);
             }
         }
         this.rootPane = null;
         this.setLocationRelativeTo(this.rootPane);
         setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
-        Layout<String, String> layout = new FRLayout(graph);
+        Layout<String, String> layout = new FRLayout(grafo);
         layout.setSize(new Dimension(this.getWidth(), this.getHeight()));
         BasicVisualizationServer<String, String> visualization = new BasicVisualizationServer<>(layout);
         visualization.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()));
@@ -1682,8 +1682,8 @@ public class Principal extends javax.swing.JFrame {
             de.vecinos.add(new Vecinos(a, level));
             JOptionPane.showMessageDialog(this.getFrames()[0], a.nombre + " es ahora vecino de " + de);
             js_nivel.setValue(1);
-            graph.addEdge(level, de, a, EdgeType.DIRECTED);
-            grapho.addEdge(nivel, de, a, EdgeType.DIRECTED);
+            grafo.addEdge(level, de, a, EdgeType.DIRECTED);
+            grafo1.addEdge(nivel, de, a, EdgeType.DIRECTED);
             cb_a_relacion.removeAllItems();
             lista_vecinos.clear();
             for (int i = 0; i < lista_lugares.size(); i++) {
@@ -1942,8 +1942,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTextField txt_total_ventas;
     // End of variables declaration//GEN-END:variables
 
-    SparseMultigraph<Lugar, Relacion_a_vecino> graph = new SparseMultigraph<Lugar, Relacion_a_vecino>();
-    SparseMultigraph<Lugar, Relacion> grapho = new SparseMultigraph<Lugar, Relacion>();
+    SparseMultigraph<Lugar, Relacion_a_vecino> grafo = new SparseMultigraph<Lugar, Relacion_a_vecino>();
+    SparseMultigraph<Lugar, Relacion> grafo1 = new SparseMultigraph<Lugar, Relacion>();
     ArrayList<Ingredientes> lista_ingredientes = new ArrayList();
     ArrayList<Producto_O_Orden> lista_ordenes_espera = new ArrayList();
     ArrayList<Producto_O_Orden> lista_ordenes_cocineros = new ArrayList();
