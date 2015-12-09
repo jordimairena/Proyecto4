@@ -28,9 +28,11 @@ import org.apache.commons.collections15.Transformer;
  * @author jordi
  */
 public class Principal extends javax.swing.JFrame {
-    int numero_de_ordenes=0;
-    double total_vendido=0;
-    int dia=1;
+
+    int numero_de_ordenes = 0;
+    double total_vendido = 0;
+    int dia = 1;
+
     /**
      * Creates new form Principal
      */
@@ -59,30 +61,6 @@ public class Principal extends javax.swing.JFrame {
         lista_lugares.add(p7);
         lista_lugares.add(p8);
         lista_lugares.add(p9);
-//        Relacion_Destinos d = new Relacion_Destinos(12, p, p1);
-//        relaciones.insert(d, size);
-//        size++;
-//        Relacion_Destinos d1 = new Relacion_Destinos(15, p, p2);
-//        relaciones.insert(d1, size);
-//        size++;
-//        Relacion_Destinos d2 = new Relacion_Destinos(40, p1, p2);
-//        relaciones.insert(d2, size);
-//        size++;
-//        Relacion_Destinos d3 = new Relacion_Destinos(20, p2, p3);
-//        relaciones.insert(d3, size);
-//        size++;
-//        Relacion_Destinos d4 = new Relacion_Destinos(25, p4, p);
-//        relaciones.insert(d4, size);
-//        size++;
-//        Relacion_Destinos d5 = new Relacion_Destinos(10, p4, p3);
-//        relaciones.insert(d5, size);
-//        size++;
-//        Relacion_Destinos d6 = new Relacion_Destinos(50, p, p9);
-//        relaciones.insert(d6, size);
-//        size++;
-//        Relacion_Destinos d7 = new Relacion_Destinos(30, p9, p8);
-//        relaciones.insert(d7, size);
-//        size++;
     }
 
     /**
@@ -879,10 +857,10 @@ public class Principal extends javax.swing.JFrame {
         });
 
         jLabel26.setFont(new java.awt.Font("Arial Rounded MT Bold", 3, 18)); // NOI18N
-        jLabel26.setText("From:");
+        jLabel26.setText("De:");
 
         jLabel27.setFont(new java.awt.Font("Arial Rounded MT Bold", 3, 18)); // NOI18N
-        jLabel27.setText("To:");
+        jLabel27.setText("A:");
 
         cb_a.setFont(new java.awt.Font("Arial Rounded MT Bold", 3, 18)); // NOI18N
 
@@ -916,11 +894,11 @@ public class Principal extends javax.swing.JFrame {
                         .addGroup(jd_de_donde_a_dondeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(cb_a, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(cb_de, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(50, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jd_de_donde_a_dondeLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btn_dijkstra)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jd_de_donde_a_dondeLayout.createSequentialGroup()
+                .addGap(0, 22, Short.MAX_VALUE)
+                .addComponent(btn_dijkstra)
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         jd_de_donde_a_dondeLayout.setVerticalGroup(
             jd_de_donde_a_dondeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1305,7 +1283,7 @@ public class Principal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "No ah sido agregado");
         }
 
-        //System.out.println(lista_ingredientes.toString());
+       
     }//GEN-LAST:event_btn_agregar_ingredienteMouseClicked
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
@@ -1354,10 +1332,6 @@ public class Principal extends javax.swing.JFrame {
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         // TODO add your handling code here:
-//        for (int i = 0; i < lista_ingredientes.size(); i++) {
-//            System.out.println(i + "-" + lista_ingredientes.get(i).toString());
-//        }
-
         DefaultTableModel modelo1 = (DefaultTableModel) jt_agre_ingre.getModel();
         for (int i = 0; i < modelo1.getRowCount(); i++) {
             modelo1.removeRow(i);
@@ -1374,17 +1348,30 @@ public class Principal extends javax.swing.JFrame {
     private void btn_agregar_prod_a_lista_esperaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_agregar_prod_a_lista_esperaMouseClicked
         // TODO add your handling code here:
         try {
+            System.out.println(lista_ingredientes.toString());
             String nom = txt_nom_prod.getText();
             int time = Integer.parseInt(txt_tiempo_prep.getText());
             double precio = Double.parseDouble(txt_prec_prod.getText());
             DefaultTableModel modelo = (DefaultTableModel) jt_agre_ingre.getModel();
-            Object ing[] = new Object[20];
+            ArrayList temp = new ArrayList();
             for (int i = 0; i < modelo.getRowCount(); i++) {
-
-                ing[i] = (jt_agre_ingre.getValueAt(i, 1).toString());
+                temp.add((jt_agre_ingre.getValueAt(i, 1).toString()));
             }
-            lista_ordenes_espera.add(new Producto_O_Orden(nom, precio, time, ing));
+            lista_ordenes_espera.add(new Producto_O_Orden(nom, precio, time, temp));
             JOptionPane.showMessageDialog(this, "Producto ah sido agregado");
+            for (int i = 0; i < lista_ordenes_espera.size(); i++) {
+                for (int j = 0; j < lista_ingredientes.size(); j++) {
+                    if (lista_ordenes_espera.get(i).getLista().toString().contains(lista_ingredientes.get(j).getNombre())) {
+                        lista_ingredientes.remove(lista_ingredientes.get(j));
+                    }
+                }
+            }
+            DefaultTableModel modelo1 = (DefaultTableModel) jt_agre_ingre.getModel();
+            for (int i = 0; i < modelo1.getRowCount(); i++) {
+                modelo1.removeRow(i);
+            }
+            System.out.println(lista_ingredientes.toString());
+            
             txt_nom_prod.setText("");
             txt_prec_prod.setText("");
             txt_tiempo_prep.setText("");
@@ -1392,8 +1379,7 @@ public class Principal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "No ah sido agregado");
         }
 
-//        System.out.println("lista de productos");
-//        System.out.println(lista_ordenes_espera_espera.toString());
+
 
     }//GEN-LAST:event_btn_agregar_prod_a_lista_esperaMouseClicked
 
@@ -1410,8 +1396,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jCheckBoxMenuItem1ActionPerformed
 
     private void btn_eliminar_productosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_eliminar_productosMouseClicked
-        // TODO add your handling code here:
-        //System.out.println(lista_ordenes_espera_espera.toString());
+        // TODO add your handling code here:        
         try {
             int elim = cb_eliminar_prod.getSelectedIndex();
             lista_ordenes_espera.remove(elim);
@@ -1426,7 +1411,7 @@ public class Principal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "No ah sido eliminado");
         }
 
-        //System.out.println(lista_ordenes_espera.toString());
+        
     }//GEN-LAST:event_btn_eliminar_productosMouseClicked
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
@@ -1480,10 +1465,9 @@ public class Principal extends javax.swing.JFrame {
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
         int escojio = cb_lista_productos_cocineros.getSelectedIndex();
-
         for (int i = 0; i < lista_ordenes_espera.size(); i++) {
             if (i == escojio) {
-                lista_ordenes_cocineros.add(new Producto_O_Orden(lista_ordenes_espera.get(escojio).getNombre().toString(), lista_ordenes_espera.get(escojio).getPrecio(), lista_ordenes_espera.get(escojio).getTiempo(), lista_ordenes_espera.get(escojio).getIngredientes()));
+                lista_ordenes_cocineros.add(new Producto_O_Orden(lista_ordenes_espera.get(escojio).getNombre().toString(), lista_ordenes_espera.get(escojio).getPrecio(), lista_ordenes_espera.get(escojio).getTiempo(), lista_ordenes_espera.get(escojio).getLista()));
             }
         }
         if (lbCocinero1.getText().contentEquals("Inactivo")) {
@@ -1491,8 +1475,8 @@ public class Principal extends javax.swing.JFrame {
             int tiempo_prep = lista_ordenes_cocineros.get(0).getTiempo();
             String nom = lista_ordenes_cocineros.get(0).getNombre();
             jTextField1.setText(nom);
-            total_vendido+=lista_ordenes_cocineros.get(0).getPrecio();
-            numero_de_ordenes+=1;
+            total_vendido += lista_ordenes_cocineros.get(0).getPrecio();
+            numero_de_ordenes += 1;
             AdministrarBarra ab = new AdministrarBarra(jProgressBar1, tiempo_prep, lbCocinero1, nom, jTextField1);
             ab.start();
             lista_ordenes_espera.remove(escojio);
@@ -1506,8 +1490,8 @@ public class Principal extends javax.swing.JFrame {
             int tiempo_prep = lista_ordenes_cocineros.get(1).getTiempo();
             String nom = lista_ordenes_cocineros.get(1).getNombre();
             jTextField2.setText(nom);
-            total_vendido+=lista_ordenes_cocineros.get(1).getPrecio();
-            numero_de_ordenes+=1;
+            total_vendido += lista_ordenes_cocineros.get(1).getPrecio();
+            numero_de_ordenes += 1;
             AdministrarBarra ab = new AdministrarBarra(jProgressBar2, tiempo_prep, lbCocinero2, nom, jTextField2);
             ab.start();
             lista_ordenes_espera.remove(escojio);
@@ -1521,8 +1505,8 @@ public class Principal extends javax.swing.JFrame {
             int tiempo_prep = lista_ordenes_cocineros.get(2).getTiempo();
             String nom = lista_ordenes_cocineros.get(2).getNombre();
             jTextField3.setText(nom);
-            total_vendido+=lista_ordenes_cocineros.get(2).getPrecio();
-            numero_de_ordenes+=1;
+            total_vendido += lista_ordenes_cocineros.get(2).getPrecio();
+            numero_de_ordenes += 1;
             AdministrarBarra ab = new AdministrarBarra(jProgressBar3, tiempo_prep, lbCocinero3, nom, jTextField3);
             ab.start();
             lista_ordenes_espera.remove(escojio);
@@ -1536,8 +1520,8 @@ public class Principal extends javax.swing.JFrame {
             int tiempo_prep = lista_ordenes_cocineros.get(3).getTiempo();
             String nom = lista_ordenes_cocineros.get(3).getNombre();
             jTextField4.setText(nom);
-            total_vendido+=lista_ordenes_cocineros.get(3).getPrecio();
-            numero_de_ordenes+=1;
+            total_vendido += lista_ordenes_cocineros.get(3).getPrecio();
+            numero_de_ordenes += 1;
             AdministrarBarra ab = new AdministrarBarra(jProgressBar4, tiempo_prep, lbCocinero4, nom, jTextField4);
             ab.start();
             lista_ordenes_espera.remove(escojio);
@@ -1551,8 +1535,8 @@ public class Principal extends javax.swing.JFrame {
             int tiempo_prep = lista_ordenes_cocineros.get(4).getTiempo();
             String nom = lista_ordenes_cocineros.get(4).getNombre();
             jTextField5.setText(nom);
-            total_vendido+=lista_ordenes_cocineros.get(4).getPrecio();
-            numero_de_ordenes+=1;
+            total_vendido += lista_ordenes_cocineros.get(4).getPrecio();
+            numero_de_ordenes += 1;
             AdministrarBarra ab = new AdministrarBarra(jProgressBar5, tiempo_prep, lbCocinero5, nom, jTextField5);
             ab.start();
             lista_ordenes_espera.remove(escojio);
@@ -1563,13 +1547,11 @@ public class Principal extends javax.swing.JFrame {
             cb_lista_productos_cocineros.setModel(modelo1);
         } else {
             JOptionPane.showMessageDialog(this, "TODOS COCINEROS OCUPADOS,espere que uno termine");
-        }
-        System.out.println(lista_ordenes_cocineros);
+        }        
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-        // TODO add your handling code here:
-        /**/
+        // TODO add your handling code here:        
         DefaultTableModel modelo1 = (DefaultTableModel) jt_ordenes_camiones.getModel();
         for (int i = 0; i < modelo1.getRowCount(); i++) {
             modelo1.removeRow(i);
@@ -1585,7 +1567,7 @@ public class Principal extends javax.swing.JFrame {
     private void btn_aceptar_ordenes_camionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_aceptar_ordenes_camionesMouseClicked
         // TODO add your handling code here:
         String camion = (String) cb_camiones.getSelectedItem();
-        ArrayList temp = new ArrayList<>(9);
+        ArrayList temp = new ArrayList(9);
         DefaultTableModel modelo = (DefaultTableModel) jt_ordenes_camiones.getModel();
         for (int i = 0; i < modelo.getRowCount(); i++) {
             for (int j = 0; j < temp.size(); j++) {
@@ -1593,7 +1575,7 @@ public class Principal extends javax.swing.JFrame {
                     System.out.println(j);
                     if (jt_ordenes_camiones.getValueAt(i, 0).equals(true)) {
                         System.out.println("valida si el coso es true y agrega");
-                        temp.add((jt_ordenes_camiones.getValueAt(i, 1)).toString());
+                        temp.add((jt_ordenes_camiones.getValueAt(i, 1).toString()));
                     }
                 } else {
                     JOptionPane.showMessageDialog(this, "Camion full, elija otro");
@@ -1602,7 +1584,7 @@ public class Principal extends javax.swing.JFrame {
         }
         lista_camiones.add(new Camion(camion, temp));
         System.out.println(lista_camiones.toString());
-        temp = new ArrayList<>(9);
+        temp = new ArrayList(9);
     }//GEN-LAST:event_btn_aceptar_ordenes_camionesMouseClicked
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
@@ -1654,43 +1636,71 @@ public class Principal extends javax.swing.JFrame {
         txt_recorrido_de.setText(lista_lugares.get(cb_de.getSelectedIndex()).toString());
         txt_recorrido_a.setText(to.toString());
         ta_pizarra.setText(lista.toString());
-
         jd_dijsktra.setModal(true);
         jd_dijsktra.pack();
         jd_dijsktra.setVisible(true);
+        for (int i = 0; i < lista_lugares.size(); i++) {
+            graph.addVertex(lista_lugares.get(i));
+        }
+        for (int i = 0; i < lista_lugares.size(); i++) {
+            for (int j = 0; j < lista_lugares.get(i).vecinos.size(); j++) {
+                graph.addEdge(lista_lugares.get(i).vecinos.get(j).getWeight(), lista_lugares.get(i), lista_lugares.get(i).vecinos.get(j).getLugar(), EdgeType.DIRECTED);
+            }
+        }
+        for (int i = 0; i < lista_lugares.size(); i++) {
+            grapho.addVertex(lista_lugares.get(i));
+        }
+        for (int i = 0; i < lista_lugares.size(); i++) {
+            for (int j = 0; j < lista_lugares.get(i).vecinos.size(); j++) {
+                grapho.addEdge(lista_lugares.get(i).vecinos.get(j).getPeso(), lista_lugares.get(i), lista_lugares.get(i).vecinos.get(j).getLugar(), EdgeType.DIRECTED);
+            }
+        }
+        this.rootPane = null;
+        this.setLocationRelativeTo(this.rootPane);
+        setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
+        Layout<String, String> layout = new FRLayout(graph);
+        layout.setSize(new Dimension(this.getWidth(), this.getHeight()));
+        BasicVisualizationServer<String, String> visualization = new BasicVisualizationServer<>(layout);
+        visualization.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()));
+        visualization.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
+        visualization.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller());
+        visualization.getRenderer().getVertexLabelRenderer().setPosition(Renderer.VertexLabel.Position.CNTR);
+        JFrame frame = new JFrame("Lugares de Salmans");
+        frame.getContentPane().add(visualization).setBackground(jPanel2.getBackground());
+        frame.pack();
+        frame.setVisible(true);
 
     }//GEN-LAST:event_btn_dijkstraActionPerformed
 
     private void btn_agregar_relacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregar_relacionesActionPerformed
         try {
-            Lugar From = lista_lugares.get(cb_de_relacion.getSelectedIndex());
-            Lugar To = PossibleFriends.get(cb_a_relacion.getSelectedIndex());
-            int weight = (Integer) js_nivel.getValue();            
-            Relacion_a_vecino level = new Relacion_a_vecino(weight, To);            
-            Relacion nivel = new Relacion(weight, To);
-            From.vecinos.add(new Vecinos(To, level));
-            JOptionPane.showMessageDialog(this.getFrames()[0], To.nombre + " is now " + From + "'s Friend.");
+            Lugar de = lista_lugares.get(cb_de_relacion.getSelectedIndex());
+            Lugar a = lista_vecinos.get(cb_a_relacion.getSelectedIndex());
+            int weight = (Integer) js_nivel.getValue();
+            Relacion_a_vecino level = new Relacion_a_vecino(weight, a);
+            Relacion nivel = new Relacion(weight, a);
+            de.vecinos.add(new Vecinos(a, level));
+            JOptionPane.showMessageDialog(this.getFrames()[0], a.nombre + " es ahora vecino de " + de);
             js_nivel.setValue(1);
-            graph.addEdge(level, From, To, EdgeType.DIRECTED);
-            grapho.addEdge(nivel, From, To, EdgeType.DIRECTED);
-            ////////////////////////////////////////////
+            graph.addEdge(level, de, a, EdgeType.DIRECTED);
+            grapho.addEdge(nivel, de, a, EdgeType.DIRECTED);
             cb_a_relacion.removeAllItems();
-            PossibleFriends.clear();
+            lista_vecinos.clear();
             for (int i = 0; i < lista_lugares.size(); i++) {
                 if (cb_de_relacion.getSelectedItem().toString().equals(lista_lugares.get(i).nombre)) {
 
                 } else {
-                    boolean isFriend = false;
+                    boolean vecinos = false;
                     for (int j = 0; j < lista_lugares.get(cb_de_relacion.getSelectedIndex()).vecinos.size(); j++) {
-                        isFriend = false;
+                        vecinos = false;
                         if (lista_lugares.get(cb_de_relacion.getSelectedIndex()).vecinos.get(j).lugar.nombre.equals(lista_lugares.get(i).nombre)) {
-                            isFriend = true;
+                            vecinos = true;
                             break;
                         }
                     }
-                    if (isFriend == false) {
+                    if (vecinos == false) {
                         cb_a_relacion.addItem(lista_lugares.get(i));
-                        PossibleFriends.add(lista_lugares.get(i));
+                        lista_vecinos.add(lista_lugares.get(i));
                     }
                 }
             }
@@ -1703,39 +1713,29 @@ public class Principal extends javax.swing.JFrame {
 
     private void cb_de_relacionItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cb_de_relacionItemStateChanged
         cb_a_relacion.removeAllItems();
-        PossibleFriends.clear();
+        lista_vecinos.clear();
         for (int i = 0; i < lista_lugares.size(); i++) {
             if (cb_de_relacion.getSelectedItem().toString().equals(lista_lugares.get(i).getNombre())) {
                 continue;
             } else {
-                boolean isFriend = false;
+                boolean vecinos = false;
                 for (int j = 0; j < lista_lugares.get(cb_de_relacion.getSelectedIndex()).vecinos.size(); j++) {
-                    isFriend = false;
+                    vecinos = false;
                     if (lista_lugares.get(cb_de_relacion.getSelectedIndex()).vecinos.get(j).lugar.getNombre().equals(lista_lugares.get(i).getNombre())) {
-                        isFriend = true;
+                        vecinos = true;
                         break;
                     }
                 }
-                if (isFriend == false) {
+                if (vecinos == false) {
                     cb_a_relacion.addItem(lista_lugares.get(i));
-                    PossibleFriends.add(lista_lugares.get(i));
+                    lista_vecinos.add(lista_lugares.get(i));
                 }
             }
         }
     }//GEN-LAST:event_cb_de_relacionItemStateChanged
 
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
-        // TODO add your handling code here:
-        /*DefaultComboBoxModel modelo = new DefaultComboBoxModel();
-         for (int i = 0; i < lista_lugares.size(); i++) {
-         modelo.addElement(lista_lugares.get(i).getNombre());
-         }
-         cb_ToRelationship.setModel(modelo);
-         DefaultComboBoxModel modelo1 = new DefaultComboBoxModel();
-         for (int i = 0; i < lista_lugares.size(); i++) {
-         modelo1.addElement(lista_lugares.get(i).getNombre());
-         }
-         cb_FromRelationship.setModel(modelo1);*/
+        // TODO add your handling code here:        
         for (int i = 0; i < lista_lugares.size(); i++) {
             cb_de_relacion.addItem(lista_lugares.get(i).toString());
         }
@@ -1746,33 +1746,32 @@ public class Principal extends javax.swing.JFrame {
 
     private void btn_cerrar_cajaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cerrar_cajaMouseClicked
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(this,"CAJA CERRADA POR HOY");
-        dia+=1;
+        JOptionPane.showMessageDialog(this, "CAJA CERRADA POR HOY");
+        dia += 1;
         jl_dia.setText(Integer.toString(dia));
         txt_ordenes_vendidas.setText("");
         txt_total_ventas.setText("");
         txt_total_impuesto.setText("");
         txt_total.setText("");
-        numero_de_ordenes=0;
-        total_vendido=0;
-        
-        
-                
+        numero_de_ordenes = 0;
+        total_vendido = 0;
+
+
     }//GEN-LAST:event_btn_cerrar_cajaMouseClicked
 
     private void jMenu3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu3ActionPerformed
         // TODO add your handling code here:
-        
-                
+
+
     }//GEN-LAST:event_jMenu3ActionPerformed
 
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
         // TODO add your handling code here:
         txt_ordenes_vendidas.setText(Integer.toString(numero_de_ordenes));
         txt_total_ventas.setText(Double.toString(total_vendido));
-        double imp=total_vendido*0.15;
+        double imp = total_vendido * 0.15;
         txt_total_impuesto.setText(Double.toString(imp));
-        double total=total_vendido+imp;
+        double total = total_vendido + imp;
         txt_total.setText(Double.toString(total));
         jl_dia.setText(Integer.toString(dia));
         jd_caja.setModal(true);
@@ -1944,11 +1943,11 @@ public class Principal extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     SparseMultigraph<Lugar, Relacion_a_vecino> graph = new SparseMultigraph<Lugar, Relacion_a_vecino>();
-SparseMultigraph<Lugar, Relacion> grapho = new SparseMultigraph<Lugar, Relacion>();
+    SparseMultigraph<Lugar, Relacion> grapho = new SparseMultigraph<Lugar, Relacion>();
     ArrayList<Ingredientes> lista_ingredientes = new ArrayList();
     ArrayList<Producto_O_Orden> lista_ordenes_espera = new ArrayList();
     ArrayList<Producto_O_Orden> lista_ordenes_cocineros = new ArrayList();
     ArrayList<Camion> lista_camiones = new ArrayList();
     ArrayList<Lugar> lista_lugares = new ArrayList();
-    ArrayList<Lugar> PossibleFriends = new ArrayList();
+    ArrayList<Lugar> lista_vecinos = new ArrayList();
 }

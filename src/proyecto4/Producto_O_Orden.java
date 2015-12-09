@@ -15,13 +15,13 @@ public class Producto_O_Orden {
     public String nombre;
     public double precio;
     public int tiempo;
-    public Object ingredientes[];
+    public ArrayList<Ingredientes> lista=new ArrayList();
 
-    public Producto_O_Orden(String nombre, double precio, int tiempo,Object ingredientes[]) {
+    public Producto_O_Orden(String nombre, double precio, int tiempo, ArrayList<Ingredientes> lista) {
         this.nombre = nombre;
         this.precio = precio;
         this.tiempo = tiempo;
-        this.ingredientes = ingredientes;
+        this.lista = lista;
     }
 
     public String getNombre() {
@@ -48,17 +48,19 @@ public class Producto_O_Orden {
         this.tiempo = tiempo;
     }
 
-    public Object[] getIngredientes() {
-        return ingredientes;
+    public ArrayList<Ingredientes> getLista() {
+        return lista;
     }
 
-    public void setIngredientes(Object[] ingredientes) {
-        this.ingredientes = ingredientes;
+    public void setLista(ArrayList<Ingredientes> lista) {
+        this.lista = lista;
     }
+
+    
 
     @Override
     public String toString() {
-        return "Producto_O_Orden{" + "nombre=" + nombre + ", precio=" + precio + ", tiempo=" + tiempo + ", ingredientes=" + ingredientes + '}';
+        return "Producto_O_Orden{" + "nombre=" + nombre + ", precio=" + precio + ", tiempo=" + tiempo + ", ingredientes=" + lista + '}';
     }
 
     
